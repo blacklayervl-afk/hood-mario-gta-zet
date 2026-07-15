@@ -89,6 +89,7 @@ export type Zone = (typeof ZONES)[number];
 
 export const PLANET_SPECS = {
   radius: 668.45,
+  /** Circumference ≈ 2 × π × 668.45 ≈ 4199.77 m — rounded to 4200 m per spec */
   circumference: 4200,
   surfaceArea: 5.62,
   gravity: 9.80665,

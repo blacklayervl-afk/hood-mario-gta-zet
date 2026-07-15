@@ -9,6 +9,11 @@ import type { CameraMode } from "@/lib/game-data";
 
 const PLANET_RADIUS = 100;
 
+// Camera rotation speed constants (radians/sec per delta unit)
+const GODVISION_ROTATION_SPEED = 0.15;
+const AERIAL_ROTATION_SPEED = 0.08;
+const ORBIT_ROTATION_SPEED = 0.2;
+
 interface GameCameraProps {
   mode: CameraMode;
 }
@@ -29,9 +34,9 @@ export default function GameCamera({ mode }: GameCameraProps) {
     }
   }, [mode, camera]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (mode === "godvision") {
-      angleRef.current += delta * 0.15;
+      angleRef.current += delta * GODVISION_ROTATION_SPEED;
       const r = PLANET_RADIUS * 2.8;
       camera.position.x = Math.sin(angleRef.current) * r;
       camera.position.z = Math.cos(angleRef.current) * r;
@@ -39,7 +44,7 @@ export default function GameCamera({ mode }: GameCameraProps) {
       camera.lookAt(0, 0, 0);
     } else if (mode === "aerial") {
       // Slow rotation drone view
-      angleRef.current += delta * 0.08;
+      angleRef.current += delta * AERIAL_ROTATION_SPEED;
       const r = PLANET_RADIUS * 0.8;
       camera.position.x = Math.sin(angleRef.current) * r;
       camera.position.z = Math.cos(angleRef.current) * r;
@@ -47,7 +52,7 @@ export default function GameCamera({ mode }: GameCameraProps) {
       camera.lookAt(0, 0, 0);
     } else if (mode === "orbit") {
       // Cinematic: figure-8 pattern
-      angleRef.current += delta * 0.2;
+      angleRef.current += delta * ORBIT_ROTATION_SPEED;
       const r = PLANET_RADIUS * 2;
       camera.position.x = Math.sin(angleRef.current) * r;
       camera.position.z = Math.cos(angleRef.current) * r;
